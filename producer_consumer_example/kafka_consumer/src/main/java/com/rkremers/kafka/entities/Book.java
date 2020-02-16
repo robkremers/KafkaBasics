@@ -7,16 +7,16 @@ public class Book implements Serializable {
     private static final long serialVersionUID = 2297854089624764469L;
 
     private String name;
-    private String topic;
+    private String details;
 
     public Book() {
         super();
     }
 
-    public Book(String name, String topic) {
+    public Book(String name, String details) {
         super();
         this.name = name;
-        this.topic = topic;
+        this.details = details;
     }
 
     public String getName() {
@@ -27,12 +27,12 @@ public class Book implements Serializable {
         this.name = name;
     }
 
-    public String getTopic() {
-        return topic;
+    public String getDetails() {
+        return details;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     @Override
@@ -43,13 +43,13 @@ public class Book implements Serializable {
         Book that = (Book) o;
 
         if (!name.equals(that.name)) return false;
-        return topic.equals(that.topic);
+        return details.equals(that.details);
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        result = 31 * result + topic.hashCode();
+        result = 31 * result + details.hashCode();
         return result;
     }
 
@@ -57,7 +57,7 @@ public class Book implements Serializable {
     public String toString() {
         return "Book{" +
                 "name='" + name + '\'' +
-                ", topic='" + topic + '\'' +
+                ", topic='" + details + '\'' +
                 '}';
     }
 }
