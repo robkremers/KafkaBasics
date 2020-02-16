@@ -36,3 +36,18 @@ Initial:
   499  git push -u origin master
 
 
+Downloading:
+
+1. https://kafka.apache.org/downloads.html
+	- Download and install in a suitable directory
+2. $ brew install kafka
+3. https://docs.confluent.io/current/quickstart/ce-docker-quickstart.html#ce-docker-quickstart
+
+(I have chosen option 1).
+
+Setup of Kafka.
+- Add to .bash_profile KAFKA_HOME
+	- export KAFKA_HOME=/Users/rkremers/kafka/kafka_2.12-2.4.0/
+- Add to $KAFKA_HOME/config/server.properties:
+	- advertised.host.name=localhost # For test purposes.
+
