@@ -107,6 +107,9 @@ Overview of commands that can be used for handling of Kafka on the commandline.
 
 	$ sh kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name sampleTopic --add-config retention.ms=604800000
 
+- Remove a Kafka topic:
+
+	$ sh kafka-topics.sh --zookeeper localhost:2181 --topic sampleTopic --delete
 
 Command line example of Kafka producer / consumer.
 	- Open a new terminal for the commandline producer.

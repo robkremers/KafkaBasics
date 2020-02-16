@@ -2,6 +2,8 @@ package kafka.services;
 
 
 import kafka.entities.SensorRecord;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -15,10 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class Receiver {
 
+    private static final Log logger = LogFactory.getLog(Receiver.class);
+
     @KafkaListener(topics = {"cameratopic1" , "cameratopic2"})
     public void receive(@Payload SensorRecord SensorRecord,
                         @Headers MessageHeaders headers) {
-        System.out.println("received message="+ SensorRecord.toString());
+        logger.info("received message="+ SensorRecord.toString());
     }
 
 }

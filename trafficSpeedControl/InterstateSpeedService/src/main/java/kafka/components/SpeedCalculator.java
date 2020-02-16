@@ -6,39 +6,42 @@ import java.util.Map;
 import kafka.entities.SensorRecord;
 import kafka.entities.SpeedRecord;
 import kafka.services.Sender;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SpeedCalculator {
+
+  private static final Log logger = LogFactory.getLog(SpeedCalculator.class);
   @Autowired
   Sender sender;
-  
-  private Map<String, SensorRecord> recordstream = new HashMap<String, SensorRecord>();
-  
+
+  private Map<String, SensorRecord> recordstream = new HashMap<>();
+
   public void handleRecord(SensorRecord sensorRecord) {
-    int speed=0;
-    int time=1000;
-    if (sensorRecord.getCameraId()== 1) {
+    int speed = 0;
+    int time = 1000;
+    if (sensorRecord.getCameraId() == 1) {
       recordstream.put(sensorRecord.getLicencePlate(), sensorRecord);
     }
-    if (sensorRecord.getCameraId()== 2) {
+    if (sensorRecord.getCameraId() == 2) {
       SensorRecord sensorRecord1 = recordstream.get(sensorRecord.getLicencePlate());
       if (sensorRecord1 != null) {
         if (sensorRecord1.getMinute() == sensorRecord.getMinute()) {
-          time = sensorRecord.getSecond()-sensorRecord1.getSecond();
+          time = sensorRecord.getSecond() - sensorRecord1.getSecond();
+        } else if ((sensorRecord.getMinute() - sensorRecord1.getMinute()) == 1) {
+          time = (sensorRecord.getSecond() + 60) - sensorRecord1.getSecond();
         }
-        else if ((sensorRecord.getMinute() - sensorRecord1.getMinute()) == 1) {
-          time = (sensorRecord.getSecond()+60) -sensorRecord1.getSecond();
-        }
-        speed = (int) ((0.5 / time)*3600);  
-        System.out.println("speed ="+speed);
+        speed = (int) ((0.5 / time) * 3600);
+        logger.info("speed =" + speed);
         recordstream.remove(sensorRecord.getLicencePlate());
-        if (speed >72) {
-          System.out.println("speeding ********"+ sensorRecord.getLicencePlate()+" = "+ speed);
+        if (speed > 72) {
+          logger.info("speeding ********" + sensorRecord.getLicencePlate() + " = " + speed);
           sender.send(new SpeedRecord(sensorRecord.getLicencePlate(), speed));
         }
-      }      
+      }
     }
   }
 
