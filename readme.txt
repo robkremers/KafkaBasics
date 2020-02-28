@@ -50,7 +50,8 @@ Setup of Kafka.
 - Add to .bash_profile KAFKA_HOME
 	- export KAFKA_HOME=/Users/rkremers/kafka/kafka_2.12-2.4.0/
 - Add to $KAFKA_HOME/config/server.properties:
-	- advertised.host.name=localhost # For test purposes.
+	- advertised.host.name=localhost 	# For test purposes.
+	- delete.topic.enable=true 			# In order to enable the deletion of topics (for the commands see below). 
 
 Start up Zookeeper and Kafka:
 	$ cd ~/kafka/kafka_2.12-2.4.0/bin
@@ -74,46 +75,51 @@ Kafka is now up and running.
 Overview of commands that can be used for handling of Kafka on the commandline.
 
 - List the topics available:
-	$ sh kafka-topics.sh --zookeeper localhost:2181 --list
-	$ sh kafka-topics.sh --zookeeper localhost:2181 --describe
+	$ sh bin/kafka-topics.sh --zookeeper localhost:2181 --list
+	$ sh bin/kafka-topics.sh --zookeeper localhost:2181 --describe
 
 - Create a topic:
-	$ sh ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic sampleTopic
-	$ sh ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic sampleTopic --if-not-exists
+	$ sh bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic sampleTopic
+	$ sh bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic sampleTopic --if-not-exists
 
 - Start a producer:
-	$ sh ./kafka-console-producer.sh --broker-list localhost:9092 --topic sampleTopic
+	$ sh .bin/kafka-console-producer.sh --broker-list localhost:9092 --topic sampleTopic
 
 - Start a consumer:
-	$ sh ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sampleTopic --from-beginning
+	$ sh bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sampleTopic --from-beginning
 
 - Delete the messages from a topic:
 	- Effectively setting the retentiontime for messages to 1 second.
 	- In practice this takes a while before it takes effect :-)
 
-	$ sh kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name sampleTopic --add-config retention.ms=1000
+	$ sh bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name sampleTopic --add-config retention.ms=1000
 
 	Result:
 	Completed Updating config for entity: topic 'bookTopic'.
 
 	Verify if the retention policy value changed by running the below command.
 
-	$ sh kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --describe --entity-name sampleTopic
+	$ sh bin/kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --describe --entity-name sampleTopic
 
 	Result:
 	Configs for topic 'bookTopic' are retention.ms=1000
 
 	Set back the retention-time to the standard value:
 
-	$ sh kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name sampleTopic --add-config retention.ms=604800000
+	$ sh bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name sampleTopic --add-config retention.ms=604800000
 
 - Remove a Kafka topic:
 
-	$ sh kafka-topics.sh --zookeeper localhost:2181 --topic sampleTopic --delete
+	$ sh bin/kafka-topics.sh --zookeeper localhost:2181 --topic sampleTopic --delete
+
+	Notes:
+	- Sometimes it will take time before this has been executed.
+	  In that case a listing of the topics will show that the topic to be deleted is 'marked for deletion'.
+
 
 Command line example of Kafka producer / consumer.
 	- Open a new terminal for the commandline producer.
-		$ sh $KAFKA_HOME/kafka-console-producer.sh --broker-list localhost:9092 --topic sampleTopic
+		$ sh $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic sampleTopic
 	- Open a new terminal for the commandline consumer.
 		$ sh ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sampleTopic --from-beginning
 
