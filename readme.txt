@@ -55,14 +55,14 @@ Setup of Kafka.
 Start up Zookeeper and Kafka:
 	$ cd ~/kafka/kafka_2.12-2.4.0/bin
 	- Start Zookeeper:
-		$ sh zookeeper-server-start.sh config/zookeeper.properties
+		$ sh bin/zookeeper-server-start.sh config/zookeeper.properties
 	..
 	[2020-01-08 12:18:46,645] INFO Creating new log file: log.1 (org.apache.zookeeper.server.persistence.FileTxnLog)
 
 	--> zookeeper starts.
 
 	- Start Kafka:
-		- $ sh /kafka-server-start.sh config/server.properties
+		- $ sh bin/kafka-server-start.sh config/server.properties
 	..
 	[2020-01-08 12:18:48,220] INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
 
