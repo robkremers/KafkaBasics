@@ -20,6 +20,7 @@ Topics:
 		- InterstateTrafficSensor
 		- InterstateSpeedService
 		- InterstateCarRegistryService
+- Connectors
 - Overview of scripts present in $KAFKA_HOME/bin and their purpose.
 - Sources / References
 
@@ -193,6 +194,17 @@ A more extensive java example:
 	- InterstateCarRegistryService
 
 
+Connectors
+
+Apache Kafka connectors
+- Purpose:
+	Many connectors have been built in order to provide connectivity to and from the Kafka brokers / topic in order to support production level connectivity.
+
+- e.g. Confluent, IBM.
+	- Confluent: google apache Kafka connectors.
+		--> Out of the box connectors.
+- Kafka connector API.
+
 Overview of scripts present in $KAFKA_HOME/bin and their purpose.
 
 Sources / References
@@ -232,3 +244,4 @@ Sources / References
 	Overviews:
 	- Devoxx 2019 Belgium: A Deep Dive into Apache Kafka This is Event Streaming by Andrew Dunnings & Katherine Stanley
 		- https://www.youtube.com/watch?v=X40EozwK75s&t=1252s
+
