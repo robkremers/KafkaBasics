@@ -194,10 +194,12 @@ A basic java example:
 	- kafka_producer
 		- A Java REST Spring Boot application.
 			- Based on spring-boot-starter-web
+			- Data enters the application via a POST action and sent to Kafka topic 'bookTopic'.
 	- kafka_consumer
 		- A Java Spring Boot application.
 			- Based on spring-boot-starter.
 			- The use of '@EnableKafka' in class KafkaConfiguration acts as a @Service and will keep the application up.
+			- The content of topic 'bookTopic' is consumed.
 - Postman:
 	POST: http://localhost:9999/api/kafka
 	- Body (raw, JSON):
@@ -245,6 +247,7 @@ Connectors
 	- e.g. Confluent, IBM.
 		- Confluent: google apache Kafka connectors.
 			--> Out of the box connectors.
+			- e.g. a Splunk or ElasticSearch connector for data / logging analysis.
 	- Kafka connector API.
 
 Overview of scripts present in $KAFKA_HOME/bin and their purpose.
