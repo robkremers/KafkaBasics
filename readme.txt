@@ -188,22 +188,39 @@ Result:
 
 
 A more extensive java example:
-- trafficSpeedControl
-	- InterstateTrafficSensor
-	- InterstateSpeedService
-	- InterstateCarRegistryService
+- trafficSpeedControl, consisting of 3 separate microservices
+	- Micorservices:
+		- InterstateTrafficSensor
+		- InterstateSpeedService
+		- InterstateCarRegistryService
+	- Setup:
+		- Cars are driving along an interstate road and their presence is detected at two places.
+		- Each sensor is sending the data to a Kafka topic: 'cameratopic1' and 'cameratopic2'.
+			- This is simulated by microservice'InterstateTrafficSensor' that is sending data to these topics.
+			- An instance of class SensorRecord is sent.
+		- Microservice 'InterstateSpeedService':
+			- consumes the data from topics 'cameratopic1' and 'cameratopic2', receiving instances of class SensorRecord.
+			- The speed is calculated based on the car licenseplates, the distance between the sensors and the time between registration.
+			- If the speed > 72 miles the properties of the car is sent to topic 'tofasttopic'.
+			- An instance of class SpeedRecord is sent.
+		- Microservice 'InterstateCarRegistryService':
+			- Consumes the data from topic 'tofasttopic', receiving instances of class SpeedRecord.
+			- The owner properties of the owner of the car is found and together with the speed properties the data is sent to topic 'ownertopic'.
+			- An instance of class FeeRecord is sent.
+	- Purpose:
+		- To show that Kafka can be used as a base for a series of microservices that consume and enrich incoming data and finally deliver output data.
 
 
 Connectors
 
-Apache Kafka connectors
-- Purpose:
-	Many connectors have been built in order to provide connectivity to and from the Kafka brokers / topic in order to support production level connectivity.
+- Apache Kafka connectors
+	- Purpose:
+		Many connectors have been built in order to provide connectivity to and from the Kafka brokers / topic in order to support production level connectivity.
 
-- e.g. Confluent, IBM.
-	- Confluent: google apache Kafka connectors.
-		--> Out of the box connectors.
-- Kafka connector API.
+	- e.g. Confluent, IBM.
+		- Confluent: google apache Kafka connectors.
+			--> Out of the box connectors.
+	- Kafka connector API.
 
 Overview of scripts present in $KAFKA_HOME/bin and their purpose.
 

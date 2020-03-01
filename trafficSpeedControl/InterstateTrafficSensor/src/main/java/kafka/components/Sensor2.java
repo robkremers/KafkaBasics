@@ -4,12 +4,16 @@ import java.time.LocalTime;
 
 import kafka.entities.SensorRecord;
 import kafka.services.Sender;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Sensor2 {
+
+	private static final Log logger = LogFactory.getLog(Sensor2.class);
 
 	@Autowired
 	private Sender sender;
@@ -52,7 +56,7 @@ public class Sensor2 {
 		String licencePlate = "AS" + licencePlateNumber1;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car1CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car1CameraId++;
 		if (car1CameraId == 3) {
 			car1CameraId = 1;
@@ -67,7 +71,7 @@ public class Sensor2 {
 		String licencePlate = "BS" + licencePlateNumber3;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car3CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car3CameraId++;
 		if (car3CameraId == 3) {
 			car3CameraId = 1;
@@ -82,7 +86,7 @@ public class Sensor2 {
 		String licencePlate = "CS" + licencePlateNumber4;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car4CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car4CameraId++;
 		if (car4CameraId == 3) {
 			car4CameraId = 1;
@@ -98,7 +102,7 @@ public class Sensor2 {
 		String licencePlate = "ES" + licencePlateNumber5;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car5CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car5CameraId++;
 		if (car5CameraId == 3) {
 			car5CameraId = 1;
@@ -114,7 +118,7 @@ public class Sensor2 {
 		String licencePlate = "FS" + licencePlateNumber6;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car6CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car6CameraId++;
 		if (car6CameraId == 3) {
 			car6CameraId = 1;
@@ -129,7 +133,7 @@ public class Sensor2 {
 		String licencePlate = "GS" + licencePlateNumber7;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car7CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car7CameraId++;
 		if (car7CameraId == 3) {
 			car7CameraId = 1;
@@ -144,7 +148,7 @@ public class Sensor2 {
 		String licencePlate = "FBS" + licencePlateNumber8;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car8CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car8CameraId++;
 		if (car8CameraId == 3) {
 			car8CameraId = 1;
@@ -159,7 +163,7 @@ public class Sensor2 {
 		String licencePlate = "FAS" + licencePlateNumber9;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car9CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car9CameraId++;
 		if (car9CameraId == 3) {
 			car9CameraId = 1;
@@ -174,7 +178,7 @@ public class Sensor2 {
 		String licencePlate = "FGS" + licencePlateNumber10;
 		SensorRecord sensorRecord = new SensorRecord(licencePlate, LocalTime.now().getMinute(), LocalTime.now().getSecond(), car10CameraId);
 		sender.send(cameratopic, sensorRecord);
-		System.out.println("sending to topic:"+cameratopic+"  "+sensorRecord.cameraId+" "+sensorRecord.licencePlate);
+		logger.info("sending to topic: " + cameratopic + "  " + sensorRecord.toString());
 		car10CameraId++;
 		if (car10CameraId == 3) {
 			car10CameraId = 1;

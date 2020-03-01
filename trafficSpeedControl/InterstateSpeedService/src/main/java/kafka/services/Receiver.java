@@ -17,7 +17,7 @@ public class Receiver {
 
     private static final Log logger = LogFactory.getLog(Receiver.class);
 
-	@Autowired
+    @Autowired
     SpeedCalculator speedCalculator;
 
     @KafkaListener(topics = {"cameratopic1" , "cameratopic2"})

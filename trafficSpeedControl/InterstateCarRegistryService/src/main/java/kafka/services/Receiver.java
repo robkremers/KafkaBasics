@@ -23,7 +23,7 @@ public class Receiver {
     @KafkaListener(topics = "${app.topic.tofasttopic}")
     public void receive(@Payload SpeedRecord speedRecord,
                         @Headers MessageHeaders headers) {
-			logger.info("*** find owner of "+ speedRecord.toString());
-		ownerService.findOwner(speedRecord.licencePlate, speedRecord.getSpeed());
+    	logger.info("*** Find owner of "+ speedRecord.toString());
+    	ownerService.findOwner(speedRecord.licencePlate, speedRecord.getSpeed());
     }
 }

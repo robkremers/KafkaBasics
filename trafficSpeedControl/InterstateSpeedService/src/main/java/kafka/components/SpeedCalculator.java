@@ -9,6 +9,7 @@ import kafka.services.Sender;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +18,9 @@ public class SpeedCalculator {
   private static final Log logger = LogFactory.getLog(SpeedCalculator.class);
   @Autowired
   Sender sender;
+
+  @Value("${app.speedlimit}")
+  private int speedlimit;
 
   private Map<String, SensorRecord> recordstream = new HashMap<>();
 
@@ -35,10 +39,10 @@ public class SpeedCalculator {
           time = (sensorRecord.getSecond() + 60) - sensorRecord1.getSecond();
         }
         speed = (int) ((0.5 / time) * 3600);
-        logger.info("speed =" + speed);
+        logger.info("Measured speed of " + sensorRecord.getLicencePlate() + " = " + speed);
         recordstream.remove(sensorRecord.getLicencePlate());
-        if (speed > 72) {
-          logger.info("speeding ********" + sensorRecord.getLicencePlate() + " = " + speed);
+        if (speed > speedlimit) {
+          logger.info("speeding ******** " + sensorRecord.getLicencePlate() + " = " + speed + " --> tofasttopic");
           sender.send(new SpeedRecord(sensorRecord.getLicencePlate(), speed));
         }
       }
