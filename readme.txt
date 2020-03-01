@@ -8,17 +8,19 @@ Topics:
 - Downloading
 - Setup of Kafka
 - Starting up Kafka
-- Overview of commands that can be used for handling of Kafka on the commandline.
-- Command line example of Kafka producer / consumber.
+- Overview of commands that can be used for handling of Kafka / topics on the commandline.
+- Command line example of Kafka producer / consumer.
 - A basic java example:
 	- producer_consumer_example
 		- kafka_producer
 		- kafka_consumer
+- Zookeeper state unix commands
 - A more extensive java example:
 	- trafficSpeedControl
 		- InterstateTrafficSensor
 		- InterstateSpeedService
 		- InterstateCarRegistryService
+- Overview of scripts present in $KAFKA_HOME/bin and their purpose.
 - Sources / References
 
 Git:
@@ -52,6 +54,19 @@ Setup of Kafka.
 - Add to $KAFKA_HOME/config/server.properties:
 	- advertised.host.name=localhost 	# For test purposes.
 	- delete.topic.enable=true 			# In order to enable the deletion of topics (for the commands see below). 
+- Add to $KAFKA_HOME/config/zookeeper/properties:
+	# RJWK:
+	# See: https://zookeeper.apache.org/doc/r3.4.12/zookeeperAdmin.html
+	# This property contains a list of comma separated Four Letter Words commands. 
+	# It is introduced to provide fine grained control over the set of commands ZooKeeper 
+	# can execute, so users can turn off certain commands if necessary. 
+	# By default it contains all supported four letter word commands except "wchp" and "wchc", 
+	# if the property is not specified. If the property is specified, then only commands listed in the whitelist are enabled.
+	# Here's an example of the configuration that enables stat, ruok, conf, and isro command while disabling the rest of Four Letter Words command:
+	#                 4lw.commands.whitelist=stat, ruok, conf, isro, envi, srvr
+	# Users can also use asterisk option so they don't have to include every command one by one in the list. As an example, this will enable all four letter word commands:
+	4lw.commands.whitelist=*
+
 
 Start up Zookeeper and Kafka:
 	$ cd ~/kafka/kafka_2.12-2.4.0/bin
@@ -81,6 +96,9 @@ Overview of commands that can be used for handling of Kafka on the commandline.
 - Create a topic:
 	$ sh bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic sampleTopic
 	$ sh bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic sampleTopic --if-not-exists
+
+	Note:
+	In a production situation the number of partitions would be such that at least three but often more brokers can support the topic.
 
 - Start a producer:
 	$ sh .bin/kafka-console-producer.sh --broker-list localhost:9092 --topic sampleTopic
@@ -121,10 +139,28 @@ Command line example of Kafka producer / consumer.
 	- Open a new terminal for the commandline producer.
 		$ sh $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic sampleTopic
 	- Open a new terminal for the commandline consumer.
-		$ sh ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sampleTopic --from-beginning
+		$ sh $KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sampleTopic --from-beginning
 
 	- Now messages can be sent to topic sampleTopic.
 	- These messages can be read from the consumer reading from topic sampleTopic.
+
+
+Zookeeper state unix commands
+	It is possible to send "4 letter words" to the ZooKeeper cluster to query the state
+	- https://zookeeper.apache.org/doc/r3.1.2/zookeeperAdmin.html
+		- ZooKeeper Commands: The Four Letter Words
+	- Note: for the curious ones:
+		$ man nc <enter> # telnet-like application
+	- See: zookeeper.properties: 4lw.commands.whitelist=* # Should be active. Needs to be added.
+	- Examples:
+		$ echo "srvr" | nc localhost 2181
+		$ echo "ruok" | nc localhost 2181
+		$ echo "envi" | nc localhost 2181
+		$ echo "stat" | nc localhost 2181
+		$ echo "conf" | nc localhost 2181 # What is the configuration ZooKeeper started with.
+
+
+- RJWK 2020-02-28: TODO: Refer to earlier: Navigate the ZooKeeper tree.
 
 
 A basic java example:
@@ -156,3 +192,43 @@ A more extensive java example:
 	- InterstateSpeedService
 	- InterstateCarRegistryService
 
+
+Overview of scripts present in $KAFKA_HOME/bin and their purpose.
+
+Sources / References
+
+	Note on sources:
+		Kafka is still developing.
+		Therefore examples that are somewhat older may be (slightly) out of date.
+		So e.g. scripting options and java functionality may be used that are actually out of date.
+		In case of doubt check the latest version of the references, API's, etc.
+
+	References:
+	- https://kafka.apache.org/
+	- https://kafka.apache.org/quickstart
+	- https://zookeeper.apache.org/doc/r3.4.12/zookeeperAdmin.html
+	- https://docs.cloudera.com/documentation/kafka/latest/topics/kafka_command_line.html
+	- https://www.cloudkarafka.com/blog/2018-07-04-cloudkarafka_what_is_zookeeper.html
+		- 2020-02-28: To Read.
+	- https://docs.confluent.io/2.0.0/quickstart.html
+		- Read from this and further (Serializers, Security)
+	- https://docs.confluent.io/current/security/index.html
+
+	API Documentation:
+	- https://kafka.apache.org/10/javadoc/index.html
+	- https://docs.spring.io/spring-kafka/api/index.html
+
+	Kafka Download:
+	- https://www.apache.org/dyn/closer.cgi?path=/kafka/2.4.0/kafka_2.12-2.4.0.tgz
+
+	Tutorials:
+	- https://www.tutorialkart.com/apache-kafka/install-apache-kafka-on-mac/
+	- TheDeveloperGuy: Creating a Kafka Producer with Spring Boot
+		- https://www.youtube.com/watch?v=azPVFi8FkBU
+		- May 21, 2019
+	- https://www.tutorialspoint.com/apache_kafka/
+	- https://data-flair.training/blogs/apache-kafka-tutorial/
+
+	Overviews:
+	- Devoxx 2019 Belgium: A Deep Dive into Apache Kafka This is Event Streaming by Andrew Dunnings & Katherine Stanley
+		- https://www.youtube.com/watch?v=X40EozwK75s&t=1252s

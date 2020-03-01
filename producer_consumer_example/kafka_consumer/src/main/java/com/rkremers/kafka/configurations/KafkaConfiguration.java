@@ -41,7 +41,17 @@ public class KafkaConfiguration {
     public ConsumerFactory<String, Book> bookConsumerFactory() {
         Map<String, Object> configuration  = new HashMap<>();
 
-        // The following is needed in case of different consumer factories for the same topic.
+         /**
+          * The following is needed in case of different consumer factories for the same topic.
+          * Reasons:
+          * Multiple consumers can share the load.
+          * If one consumer dies another one can take over the processing.
+          *
+          * e.g. in case of multiple partitions multiple consumers can choose to load from different
+          * partitions and / or from different offsets ( points in the topic list).
+          *
+          *
+          */
         configuration.put(ConsumerConfig.GROUP_ID_CONFIG, "bookConfigId");
 
         configuration.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");

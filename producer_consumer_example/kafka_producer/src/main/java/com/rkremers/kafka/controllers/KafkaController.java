@@ -23,5 +23,6 @@ public class KafkaController {
     public void post(@RequestBody Book book) {
         System.out.println("book = " + book.toString());
         kafkaTemplate.send("bookTopic", book);
+        kafkaTemplate.flush();
     }
 }

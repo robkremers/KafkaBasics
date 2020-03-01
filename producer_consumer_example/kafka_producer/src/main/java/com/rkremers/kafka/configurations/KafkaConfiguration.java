@@ -2,6 +2,8 @@ package com.rkremers.kafka.configurations;
 
 import com.rkremers.kafka.entities.Book;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.config.SaslConfigs;
+import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +44,32 @@ public class KafkaConfiguration {
 //        return new DefaultKafkaProducerFactory<>(configuration);
 
         configuration.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        // Some additional possibilities. TODO: Needs further explanation.
+        /**
+         * Producer can choose whether to retry.
+         * 0: Do not retry; loses messages on error.
+         * >o: Retry, might result in duplicates on error.
+         * Alternative:
+         * - Choose Idempotence TODO: howto.
+         */
+        configuration.put(ProducerConfig.RETRIES_CONFIG, "1");
+        /**
+         * Producer can choose the acknowledgement level:
+         * 0: Fire-and-forget
+         * 1: Waits for 1 broker to acknowledge (default)
+         * ALL: Waits for all replica brokers to acknowledge. Enforces synchronization over leader, followers.
+         */
+        configuration.put(ProducerConfig.ACKS_CONFIG, "1");
+        /**
+         * So although SSL is not being used in Kafka reference to a protocol is still using the 'SSL' term.
+         * But the protocol can be anything.
+         */
+        configuration.put(SslConfigs.SSL_PROTOCOL_CONFIG, "TLSv1.2");
+//        configuration.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG,"es-cert.jks");
+//        configuration.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "passsword");
+//        configuration.put(SaslConfigs.DEFAULT_SASL_MECHANISM, "PLAIN"); // vs. GSSAPI ?
+
 
         return new DefaultKafkaProducerFactory<>(configuration, new StringSerializer(),
                 new JsonSerializer<Book>());
