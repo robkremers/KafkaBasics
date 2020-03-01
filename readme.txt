@@ -5,6 +5,7 @@ Purpose:
 To give an overview of Kafka, it's handling and some code examples.
 
 Topics:
+- Introduction
 - Downloading
 - Setup of Kafka
 - Starting up Kafka
@@ -39,6 +40,30 @@ Initial:
   498  git remote add origin https://github.com/robkremers/KafkaBasics.git
   499  git push -u origin master
 
+
+Introduction:
+
+Kafka is an apache project.
+After downloading Kafka the following will be present:
+- Zookeeper
+- Kafka
+
+Both are java projects.
+- Zookeeper:
+	- Apache Zookeeper is a distributed, open-source configuration, synchronization service along with naming registry for distributed applications. 
+	- It works in the shadow of more exposed Big Data tools, as Apache Spark or Apache Kafka.
+	- Originally built by Yahoo.
+	- Some features:
+		- Reliable System: This system is very reliable as it keeps working even if a node fails.
+		- Fast Processing.
+		- Scalable: The performance of ZooKeeper can be improved by adding nodes.
+- Kafka
+	- Originally developed by LinkedIn. Donated to the Apache Software Foundation.
+	- aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds.
+	- Data can be handled via multiple brokers in parallel, thereby providing 24/7 availability.
+	- Data is sent to 'topics', and is available for a configurable amount of time, is immutable, for multiple consumers.
+	- Overview: 
+		https://en.wikipedia.org/wiki/Apache_Kafka#/media/File:Overview_of_Apache_Kafka.svg
 
 Downloading:
 
