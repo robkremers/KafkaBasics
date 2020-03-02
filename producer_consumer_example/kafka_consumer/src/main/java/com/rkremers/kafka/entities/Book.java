@@ -1,17 +1,9 @@
 package com.rkremers.kafka.entities;
 
 import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
-@AllArgsConstructor
+@Data
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 2297854089624764469L;
