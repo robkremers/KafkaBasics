@@ -77,4 +77,5 @@ public class KafkaConfiguration {
         concurrentKafkaListenerContainerFactory.setConcurrency(4);
         return concurrentKafkaListenerContainerFactory;
     }
+
 }

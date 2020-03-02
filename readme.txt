@@ -78,8 +78,10 @@ Setup of Kafka.
 - Add to .bash_profile KAFKA_HOME
 	- export KAFKA_HOME=/Users/rkremers/kafka/kafka_2.12-2.4.0/
 - Add to $KAFKA_HOME/config/server.properties:
-	- advertised.host.name=localhost 	# For test purposes.
-	- delete.topic.enable=true 			# In order to enable the deletion of topics (for the commands see below). 
+	# For test purposes / local development.
+	- advertised.host.name=localhost 	
+	# In order to enable the deletion of topics (for the commands see below). 
+	- delete.topic.enable=true 			
 - Add to $KAFKA_HOME/config/zookeeper/properties:
 	# RJWK:
 	# See: https://zookeeper.apache.org/doc/r3.4.12/zookeeperAdmin.html
